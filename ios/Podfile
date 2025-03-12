@@ -5,6 +5,13 @@ require Pod::Executable.execute_command('node', ['-p',
     {paths: [process.argv[1]]},
   )', __dir__]).strip
 
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+# Plaid source 추가
+source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/plaid/plaid-ios.git'
+
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
@@ -13,6 +20,8 @@ if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
   use_frameworks! :linkage => linkage.to_sym
 end
+
+pod 'Plaid', '~> 6.0.4'
 
 target 'Budgy' do
   config = use_native_modules!
